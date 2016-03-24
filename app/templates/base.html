@@ -33,6 +33,7 @@
 			clicks += 1;
 			document.getElementById("clicks").innerHTML = clicks;
 		};
+		$.get( "/getmethod/<javascript_data>" );
 		</script>
 		<button type="button" onClick="onClick()">Click me</button>
 		<p>Clicks: <a id="clicks">0</a></p>

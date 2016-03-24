@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
-from .forms import LoginForm
+from .forms import LoginForm, AddCookie
 from .models import User
 
 @app.route('/')
@@ -9,6 +9,12 @@ from .models import User
 @login_required
 def index():
     user = g.user
+    form = AddCookie()
+    if request.method == 'POST':
+        user.cookies = user.cookies + 1
+        db.session.commit()
+        flash('Added a cookie!')
+        return redirect(url_for('index'))
     posts = [ #fake array of posts
         {
             'author': {'nickname': 'John'},
