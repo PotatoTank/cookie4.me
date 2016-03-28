@@ -32,3 +32,7 @@ if os.environ.get('HEROKU') is not None:
     app.logger.info('cookie4me startup')
 
 from app import views, models
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)

@@ -10,15 +10,22 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="jumbotron">
-				<h1>cookie4.me</h1>
-				<p>how many cookies can <b>you</b> eat?</p> 
-			</div>
-			<div>cookie4.me: 
-				<a href="{{ url_for('index') }}">Home</a>
-				{% if g.user.is_authenticated %}
-				| <a href="{{ url_for('logout') }}">Logout</a>
-				{% endif %}
+			<nav class="navbar navbar-default">
+			  <div class="container-fluid">
+				<div class="navbar-header">
+				  <a class="navbar-brand" href="#">cookie4.me</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{{ url_for('index') }}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+					{% if g.user.is_authenticated %}
+					<li><a href="{{ url_for('logout') }}">Logout</a></li>
+					{% endif %}
+				</ul>
+			  </div>
+			</nav>
+			<div class="page-header">
+				<!--<img src="../static/cookie.png" width="70.3" height="63.75">-->
+				<!--<small><p>how many cookies can <b>you</b> eat?</p></small>-->
 			</div>
 			<hr>
 			{% with messages = get_flashed_messages() %}
