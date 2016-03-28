@@ -48,6 +48,16 @@ def login():
                            form=form,
                            providers=app.config['OPENID_PROVIDERS'])
 
+@app.route('/select', methods=['GET', 'POST'])
+def select(tag):
+    db = connect_db()
+    cur = db.execute("SELECT * FROM db WHERE rfid = tag")
+    return cur
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+   db.engine.execute("UPDATE d34k3eiptp679u SET cookies = cookies + 1 WHERE nickname = li.joey96")
+
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
