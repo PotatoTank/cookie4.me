@@ -80,14 +80,4 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# GET
-@app.route('/getmethod/<jsdata>')
-def get_javascript_data(jsdata):
-    return jsdata
-
-# POST
-@app.route('/postmethod', methods = ['POST'])
-def get_post_javascript_data():
-    jsdata = request.form['javascript_data']
-    return jsdata
     

@@ -11,37 +11,37 @@
 	<body>
 		<div class="container">
 			<div class="jumbotron">
-				<h1>cookie4me</h1>
+				<h1>cookie4.me</h1>
 				<p>how many cookies can <b>you</b> eat?</p> 
 			</div>
-		</div>
-		<div>cookie4.me: 
-			<a href="{{ url_for('index') }}">Home</a>
-			{% if g.user.is_authenticated %}
-			| <a href="{{ url_for('logout') }}">Logout</a>
+			<div>cookie4.me: 
+				<a href="{{ url_for('index') }}">Home</a>
+				{% if g.user.is_authenticated %}
+				| <a href="{{ url_for('logout') }}">Logout</a>
+				{% endif %}
+			</div>
+			<hr>
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul>
+				{% for message in messages %}
+					<li>{{ message }}</li>
+				{% endfor %}
+				</ul>
 			{% endif %}
+			{% endwith %}
+			{% block content %}{% endblock %}
+			
+			<script type="text/javascript">
+			var clicks = 0;
+			function onClick() {
+				clicks += 1;
+				document.getElementById("clicks").innerHTML = clicks;
+			};
+			$.get( "/getmethod/<javascript_data>" );
+			</script>
+			<button type="button" onClick="onClick()">Click me</button>
+			<p>Clicks: <a id="clicks">0</a></p>
 		</div>
-		<hr>
-		{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			<ul>
-			{% for message in messages %}
-				<li>{{ message }}</li>
-			{% endfor %}
-			</ul>
-		{% endif %}
-		{% endwith %}
-		{% block content %}{% endblock %}
-		
-		<script type="text/javascript">
-		var clicks = 0;
-		function onClick() {
-			clicks += 1;
-			document.getElementById("clicks").innerHTML = clicks;
-		};
-		$.get( "/getmethod/<javascript_data>" );
-		</script>
-		<button type="button" onClick="onClick()">Click me</button>
-		<p>Clicks: <a id="clicks">0</a></p>
 	</body>
 </html>
