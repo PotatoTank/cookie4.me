@@ -56,7 +56,7 @@ def select(tag):
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-   db.engine.execute("UPDATE d34k3eiptp679u SET cookies = cookies + 1 WHERE nickname = li.joey96")
+   db.engine.execute("UPDATE db SET cookies = cookies + 1 WHERE nickname = li.joey96")
 
 @lm.user_loader
 def load_user(id):
