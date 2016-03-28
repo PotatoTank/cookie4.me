@@ -48,15 +48,15 @@ def login():
                            form=form,
                            providers=app.config['OPENID_PROVIDERS'])
 
-@app.route('/select', methods=['GET', 'POST'])
-def select(tag):
-    db = connect_db()
-    cur = db.execute("SELECT * FROM db WHERE rfid = tag")
-    return cur
+#@app.route('/select', methods=['GET', 'POST'])
+#def select(tag):
+#    db = connect_db()
+#    cur = db.execute("SELECT * FROM db WHERE rfid = tag")
+#    return cur
 
-@app.route('/add', methods=['GET', 'POST'])
-def add():
-   db.engine.execute("UPDATE db SET cookies = cookies + 1 WHERE nickname = li.joey96")
+#@app.route('/add', methods=['GET', 'POST'])
+#def add():
+#   db.engine.execute("UPDATE db SET cookies = cookies + 1 WHERE nickname = li.joey96")
 
 @lm.user_loader
 def load_user(id):
@@ -89,5 +89,13 @@ def before_request():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('500.html'), 500
 
     
