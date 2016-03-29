@@ -3,13 +3,16 @@
 	<div class="jumbotron">
 	<div class ="text-center">
 	<h1>Hello, {{ user.nickname }}!</h1>
-	<p>You've eaten <b>{{ user.cookies }}</b> cookies!<p>
+	<p>You've eaten <b>{{ user.cookies }}</b> cookies!</p>
 	<!--<form action="/select" method="post">
 		<button type="submit" class="btn btn-default">Select!</button>
-	</form>	
+	</form>	-->
 	<form action="/add" method="post">
-		<button type="submit" class="btn btn-default">Add!</button>
-	</form>-->
+		<button type="submit" class="btn btn-default">Add Cookie Manually</button>
+	</form>
+	<form action="/reset" method="post">
+		<button type="submit" class="btn btn-default">Reset Cookie Count</button>
+	</form>
 	</div>
 	</div>
 {% endblock %}

@@ -5,7 +5,7 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     rfid = db.Column(db.String(120), index=True, unique=True)
-    cookies = db.Column(db.Integer)
+    cookies = db.Column(db.Integer, index=True, default=0)
 
     @property
     def is_authenticated(self):
@@ -26,7 +26,10 @@ class User(db.Model):
             return str(self.id) # python 3
 
     def get_cookies(self):
-        return self.cookies
+        try:
+            return unicode(self.cookies)
+        except NameError:
+            return str(self.cookies)
 
     def add_cookies(self, num):
         self.cookies = self.cookies + num

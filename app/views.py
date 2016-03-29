@@ -10,11 +10,6 @@ from .models import User
 def index():
     user = g.user
     form = AddCookie()
-    if request.method == 'POST':
-        user.cookies = user.cookies + 1
-        db.session.commit()
-        flash('Added a cookie!')
-        return redirect(url_for('index'))
     posts = [ #fake array of posts
         {
             'author': {'nickname': 'John'},
@@ -54,9 +49,15 @@ def login():
 #    cur = db.execute("SELECT * FROM db WHERE rfid = tag")
 #    return cur
 
-#@app.route('/add', methods=['GET', 'POST'])
-#def add():
-#   db.engine.execute("UPDATE db SET cookies = cookies + 1 WHERE nickname = li.joey96")
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+   db.engine.execute("UPDATE User SET cookies = cookies + 1 WHERE nickname='li.joey96'")
+   return redirect(url_for('index'))
+
+@app.route('/reset', methods=['GET', 'POST'])
+def reset():
+    db.engine.execute("UPDATE User SET cookies = 0 WHERE nickname='li.joey96'")
+    return redirect(url_for('index'))
 
 @lm.user_loader
 def load_user(id):
