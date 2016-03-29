@@ -9,21 +9,9 @@ from .models import User
 @login_required
 def index():
     user = g.user
-    form = AddCookie()
-    posts = [ #fake array of posts
-        {
-            'author': {'nickname': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'nickname': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
     return render_template("index.html",
                            title='Home',
-                           user=user,
-                           posts=posts)
+                           user=user)
 
 @app.route('/login', methods=['GET', 'POST'])
 @oid.loginhandler
@@ -37,6 +25,7 @@ def login():
         # flash('Login requested for OpenID="%s", remember_me=%s' %
         #      (form.openid.data, str(form.remember_me.data)))
         session['remember_me'] = form.remember_me.data
+        session['rfid_tag'] = form.rfid_tag.data
         return oid.try_login(form.openid.data, ask_for=['nickname', 'email'])
     return render_template('login.html',
                            title='Sign In',
@@ -49,14 +38,26 @@ def login():
 #    cur = db.execute("SELECT * FROM db WHERE rfid = tag")
 #    return cur
 
-@app.route('/add', methods=['GET', 'POST'])
-def add():
-   db.engine.execute("UPDATE User SET cookies = cookies + 1 WHERE nickname='li.joey96'")
-   return redirect(url_for('index'))
+@app.route('/add/<tag>', methods=['GET', 'POST'])
+def add(tag):
+    user = User.query.filter_by(rfid=tag).first()
+    if user is None:
+        flash('Sorry, no user has that tag...')
+        return redirect(url_for('index'))
+    user.cookies = user.cookies + 1
+    db.session.commit()
+    #db.engine.execute("UPDATE User SET cookies = cookies + 1 WHERE nickname='li.joey96'")
+    return redirect(url_for('index'))
 
-@app.route('/reset', methods=['GET', 'POST'])
-def reset():
-    db.engine.execute("UPDATE User SET cookies = 0 WHERE nickname='li.joey96'")
+@app.route('/reset/<tag>', methods=['GET', 'POST'])
+def reset(tag):
+    user = User.query.filter_by(rfid=tag).first()
+    if user is None:
+        flash('Sorry, no user has that tag...')
+        return redirect(url_for('index'))
+    user.cookies = 0
+    db.session.commit()
+    #db.engine.execute("UPDATE User SET cookies = 0 WHERE nickname='li.joey96'")
     return redirect(url_for('index'))
 
 @lm.user_loader
@@ -70,9 +71,12 @@ def after_login(resp):
         return redirect(url_for('login'))
     user = User.query.filter_by(email=resp.email).first()
     if user is None:
+        if session['rfid_tag'] == "":
+            flash('Please enter an RFID tag.')
+            return redirect(url_for('login'))
         nickname = resp.nickname
         nickname = resp.email.split('@')[0]
-        user = User(nickname=nickname, email=resp.email)
+        user = User(nickname=nickname, email=resp.email, rfid=session['rfid_tag'])
         db.session.add(user)
         db.session.commit()
     remember_me = False

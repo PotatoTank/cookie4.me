@@ -24,10 +24,10 @@
 				</ul>
 			  </div>
 			</nav>
-			<div class="page-header">
+			<!--<div class="page-header">-->
 				<!--<img src="../static/cookie.png" width="70.3" height="63.75">-->
 				<!--<small><p>how many cookies can <b>you</b> eat?</p></small>-->
-			</div>
+			<!--</div>-->
 			<hr>
 			{% with messages = get_flashed_messages() %}
 			{% if messages %}
@@ -40,7 +40,7 @@
 			{% endwith %}
 			{% block content %}{% endblock %}
 			
-			<script type="text/javascript">
+			<!--<script type="text/javascript">
 			var clicks = 0;
 			function onClick() {
 				clicks += 1;
@@ -49,7 +49,7 @@
 			$.get( "/getmethod/<javascript_data>" );
 			</script>
 			<button type="button" onClick="onClick()">Click me</button>
-			<p>Clicks: <a id="clicks">0</a></p>
+			<p>Clicks: <a id="clicks">0</a></p>-->
 		</div>
 	</body>
 </html>
