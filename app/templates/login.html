@@ -15,6 +15,8 @@ function set_openid(openid, pr)
 	form.elements['openid'].value = openid
 }
 </script>
+<center>
+<div class="panel panel-default"> <div class="panel-body">
 <h1>Sign In</h1>
 <!--<a class="btn btn-block btn-social btn-yahoo">
     <span class="fa fa-yahoo"></span> Sign in with Yahoo!
@@ -23,10 +25,10 @@ function set_openid(openid, pr)
 	{{ form.hidden_tag() }}
 	<p>
 		Please enter your OpenID, or select one of the providers below:<br>
-		<div class="form-group" placeholder="Enter email or OpenID">
-			{{ form.openid(size=80) }} <br>
+		<div class="form-group">
+			{{ form.openid(size=60) }} <br>
 		</div>
-		{{ form.rfid_tag(size=80) }} <br>
+		{{ form.rfid_tag(size=60) }} <br>
 		<small class="text-muted">We'll never share your email with anyone else.</small>
 		{% for error in form.openid.errors %}
 			<span style="color: red;">[{{ error }}]</span>
@@ -36,6 +38,8 @@ function set_openid(openid, pr)
 		{% endfor %}
 	</p>
 	<p>{{ form.remember_me }} Remember Me</p>
-	<button type="submit" class="btn btn-default">Submit</button>
+	<button type="submit" class="btn btn-default">Submit</button><br>
 </form>
+</center>
+</div></div>
 {% endblock %}
