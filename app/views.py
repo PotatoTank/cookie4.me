@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from .forms import LoginForm, AddCookie
@@ -49,11 +49,18 @@ def add(tag):
     #db.engine.execute("UPDATE User SET cookies = cookies + 1 WHERE nickname='li.joey96'")
     return redirect(url_for('index'))
 
+@app.route('/verify/<tag>', methods=['GET', 'POST'])
+def verify(tag):
+    user = User.query.filter_by(rfid=tag).first()
+    if user is None:
+        return render_template('404.html')
+    return jsonify(nickname=user.nickname, cookies=user.cookies)
+
 @app.route('/reset/<tag>', methods=['GET', 'POST'])
 def reset(tag):
     user = User.query.filter_by(rfid=tag).first()
     if user is None:
-        flash('Sorry, no user has that tag...')
+        flash('No user has that tag.')
         return redirect(url_for('index'))
     user.cookies = 0
     db.session.commit()
@@ -95,6 +102,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
 
