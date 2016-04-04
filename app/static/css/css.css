@@ -1,0 +1,20 @@
+@font-face {
+	font-family: "bebas_font";
+	src: url("../fonts/BebasNeue.woff") format('woff');
+}
+
+p.bebas {
+	font-family: bebas_font;
+	color:#7a5230;
+	font-size: 200%;
+}
+
+img {
+	display: block;
+	max-width: 40px;
+	max-height: 40px;
+	width: auto;
+	height: auto;
+	vertical-align:bottom;
+	display:inline-block;
+}
